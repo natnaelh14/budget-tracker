@@ -1,7 +1,7 @@
-var CACHE_NAME = "my-site-cache-v1";
+const CACHE_NAME = "my-site-cache-v1";
 const DATA_CACHE_NAME = "data-cache-v1";
 
-var urlsToCache = [
+const FILES_TO_CACHE = [
   "/",
   "/db.js",
   "/index.js",
@@ -11,4 +11,12 @@ var urlsToCache = [
   "/icons/icon-512x512.png"
 ];
 
-
+// adding files to the precache so that the application can use the cache (installing service worker)
+self.addEventListener('install', function (e) {
+    e.waitUntil(
+        caches.open(CACHE_NAME).then(function (cache) {
+          console.log('installing cache : ' + CACHE_NAME)
+          return cache.addAll(FILES_TO_CACHE)
+        })
+      )
+  });
